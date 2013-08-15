@@ -1,8 +1,8 @@
-define(function (require) {
+define(function () {
     var uid = 'markingData';
     localStorage[uid] = localStorage[uid] || '{}';
-    function store (key, value) {
-        if(arguments.length === 1){
+    function store(key, value) {
+        if (arguments.length === 1) {
             return JSON.parse(localStorage[uid])[key];
         }
 
@@ -11,7 +11,7 @@ define(function (require) {
         );
         _tmp[key] = value;
 
-        localStorage[uid] = JSON.stringify(_tmp)
+        localStorage[uid] = JSON.stringify(_tmp);
     }
     return store;
 });

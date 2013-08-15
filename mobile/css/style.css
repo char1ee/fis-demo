@@ -4,8 +4,7 @@
   box-sizing: border-box;
 }
 .-viewport{
-    border:1px solid #f00;
-    /*visibility: hidden;*/
+    visibility: hidden;
     position: absolute;
     left:0;
     top:0;

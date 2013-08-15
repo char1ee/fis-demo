@@ -1,8 +1,8 @@
-define(function (require){
-    var dom = require('./dom'),
-        mask = require('./mask');
+define(function (require) {
+    var dom = require('./dom');
+    // var mask = require('./mask');
 
-    var tips = (function (){
+    var tips = (function () {
         var _tips =  dom.find('.plg-tips')[0] ||
                         document.createElement('div');
 
@@ -12,20 +12,21 @@ define(function (require){
     })();
 
     return {
-       show : function (param){
+        show : function (param) {
+            param = param || {};
             var me = this;
             tips.style.display = 'block';
             tips.innerHTML = param.msg;
-            setTimeout(function(){
+            setTimeout(function () {
                 me.hide();
-                param.callback();
+                param.callback && param.callback();
             }, 1000);
             return me;
         },
 
-        hide : function (){
+        hide : function () {
             tips.style.display = 'none';
             return this;
         }
-    }
+    };
 });

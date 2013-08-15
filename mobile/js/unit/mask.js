@@ -1,7 +1,7 @@
 define(function (require) {
     var dom = require('./dom');
 
-    var mask = (function (){
+    var mask = (function () {
         var _mask = dom.find('.plg-mask')[0] ||
                     document.createElement('div');
 
@@ -11,12 +11,12 @@ define(function (require) {
     })();
 
     return {
-        show : function (){
+        show : function () {
             mask.style.display = 'block';
         },
 
-        hide : function (){
+        hide : function () {
             mask.style.display = 'none';
         }
-    }
+    };
 });
