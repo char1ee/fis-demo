@@ -37,7 +37,7 @@ define(function (require) {
                         studentDetailId: store('viewExam').marking.studentDetailId,
                         teacherId: store('exames').teacherId,
                         score: 1,
-                        evaluation: 999999999,
+                        evaluation: encodeURIComponent('中国漂亮妹纸'),
                         markingType: store('markingType'),
                         hour: ((+ new Date() - starTime) / 1000) | 0
                     }

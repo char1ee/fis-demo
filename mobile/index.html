@@ -1,9 +1,86 @@
 <!doctype html>
 <html>
 <head>
-	<title>marking</title>
+    <meta charset="UTF-8">
+    <title>阅卷系统大</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<script src="js/mod.js"></script>
+    <div class="-viewport" id="login">
+        <form action="">
+            <input type="text" name="username" placeholder="用户名" value="lilaoshi">
+            <input type="password" name="password" placeholder="密码" value="123456">
+            <button type="submit">登录</button>
+        </form>
+    </div>
+
+    <div class="-viewport" id="examList">
+    </div>
+
+    <div class="-viewport" id="orderList">
+        orderList
+    </div>
+
+    <div class="-viewport" id="viewExam">
+        viewExam
+    </div>
+    <div class="plg-mask"></div>
+    <div class="plg-loading"></div>
+
+    <script type="text/tpl" id="examListTpl">
+        <ul>
+            {{#exams}}
+            <li>
+                {{examName}}
+                {{#if canYue}}
+                    <button data-examId="{{examId}}" data-markingType="1">阅</button>
+                {{/if}}
+                {{#if canShen}}
+                    <button data-examId="{{examId}}" data-markingType="2">审</button>
+                {{/if}}
+            </li>
+            {{/exams}}
+        </ul>
+    </script>
+    <script type="text/tpl" id="orderListTpl">
+        请选择题号
+        <ul>
+            {{#allOrderNos}}
+            <li data-orderNo="{{this}}">
+                {{this}}
+            </li>
+            {{/allOrderNos}}
+        </ul>
+    </script>
+
+    <script type="text/tpl" id="viewExamTpl">
+    <form>
+    {{#viewExam}}
+        <p>
+            <img src="{{imgPrefix}}{{marking.imgSrc}}" />
+        <p>
+        <p>
+        打分
+        {{#marking.score}}
+            <input type="text" data-maxscore="{{this}}">
+        {{/marking.score}}
+        </p>
+
+        <p>
+        评语
+        <textarea placeholder="添加评语"></textarea>
+        </p>
+    {{/viewExam}}
+        <button id="save" type="submit">判题</button>
+    <form>
+    </script>
+
+    <script src="js/vendor/handlebars.js"></script>
+    <script src="js/sea.js"></script>
+    <script>
+        // init
+        var markingData = {};
+        seajs.use('init');
+    </script>
 </body>
 </html>
