@@ -55,7 +55,6 @@ define(function (require) {
         xhr.onreadystatechange = function () {
             var data;
             if (xhr.readyState === 4) {
-
                 if (xhr.status === 200) {
                     ticketId = xhr.getResponseHeader('ticketId');
                     ticketId && store('ticketId', ticketId);
@@ -76,6 +75,5 @@ define(function (require) {
             }
         };
     }
-    window.ajax = ajax;
     return ajax;
 });
