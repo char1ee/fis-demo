@@ -23,6 +23,7 @@
     "eqnull": false,
     "esnext": true,
     "evil": false,
+    "es3":true,
     "expr": true,
     "funcscope": false,
     "globalstrict": false,

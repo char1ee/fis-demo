@@ -20,7 +20,7 @@ module.exports = function (grunt) {
                             port: cfg.livereload
                         }),
                         // Serve static files.
-                        connect.static(options.base),
+                        connect.static(options.base)
                         // Make empty directories browsable.
                         // connect.directory(options.base),
                     ];
@@ -29,7 +29,7 @@ module.exports = function (grunt) {
             server: {
                 options: {
                     // keepalive: true,
-                    base: cfg.src,
+                    base: cfg.src
                 }
             }
         },
@@ -40,16 +40,16 @@ module.exports = function (grunt) {
         },
         watch: {
             options: {
-                livereload: cfg.livereload,
+                livereload: cfg.livereload
             },
             scripts:  {
-                files: [cfg.cwd + '/js/**'],
-                tasks: ['jshint']
+                files: [cfg.cwd + '/js/**']
+                // tasks: ['jshint']
             },
             less:  {
                 files: [cfg.cwd + '/css/**/*.less'],
                 tasks: ['less']
-            },
+            }
         },
 
         less: {
@@ -67,13 +67,29 @@ module.exports = function (grunt) {
             options:  grunt.file.readJSON('.jshintrc'),
             hint: {
                 src: ['mobile/js/**/*.js', '!mobile/js/sea.js', '!mobile/js/vendor/**']
-            },
+            }
         },
 
         uglify : {
             ugly: {
                 src: ['mobile/js/**/*.js', '!mobile/js/sea.js', '!mobile/js/handlebars.js'],
                 dest: 'dest/uglify.js'
+            }
+        },
+        combo: {
+            options: {
+                // sourceMap: {
+                //     // sourceRoot: '/src/'
+                // }
+            },
+            build: {
+                files: [{
+                    expand: true,
+                    cwd: 'test/src/',
+                    src: '**/*.js',
+                    dest: 'test/dist',
+                    ext: '.combo.js'
+                }]
             }
         }
     });
@@ -83,11 +99,16 @@ module.exports = function (grunt) {
 
     //  task(s)
     grunt.registerTask('default', [
+        'combo',
         'connect:server',
         'open:server',
         'watch'
     ]);
+    grunt.registerTask('lint', [
+        'jshint'
+    ]);
     grunt.registerTask('build', [
-        'uglify'
+        // 'uglify'
+        'combo'
     ]);
 };
