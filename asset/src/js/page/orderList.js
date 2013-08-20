@@ -1,10 +1,9 @@
-define(function (require) {
-    var cfg      = require('../config'),
-        dom      = require('../unit/dom'),
-        ajax     = require('../unit/ajax'),
-        store    = require('../unit/store'),
-        viewport = require('../unit/viewport');
+var cfg      = require('../config'),
+    dom      = require('../unit/dom'),
+    ajax     = require('../unit/ajax'),
+    store    = require('../unit/store');
 
+module.exports = function () {
     var data = store('allOrderNos') || {};
     var tpl  = dom.find('#orderListTpl')[0].innerHTML,
         template = Handlebars.compile(tpl),
@@ -28,10 +27,10 @@ define(function (require) {
 
                 success : function (data) {
                     store('viewExam', data);
-                    viewport.show('#viewExam');
+                    window.Router('viewExam');
                 }
             });
         }
     }
     dom.find('#orderList')[0].addEventListener('touchstart', eventBind, false);
-});
+};

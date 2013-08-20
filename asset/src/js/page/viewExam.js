@@ -1,9 +1,9 @@
-define(function (require) {
-    var cfg      = require('../config'),
-        dom      = require('../unit/dom'),
-        ajax     = require('../unit/ajax'),
-        store    = require('../unit/store');
-        // viewport = require('../unit/viewport');
+var cfg      = require('../config'),
+    dom      = require('../unit/dom'),
+    ajax     = require('../unit/ajax'),
+    store    = require('../unit/store');
+
+module.exports = function () {
     var starTime;
     function render(data) {
         if (data.finishType !== false) {
@@ -25,10 +25,6 @@ define(function (require) {
         var target = e.target || {};
         console.log(e);
         if (target.id === 'save') {
-            // for (var i=0,l=dom.find('#viewExam input[type=text]').length; ++i){
-
-            // }
-
             ajax({
                 url : cfg.MARKING_SAVE,
                 type : 'post',
@@ -51,4 +47,4 @@ define(function (require) {
         }
     }
     dom.find('#viewExam')[0].addEventListener('touchstart', eventBind, false);
-});
+};

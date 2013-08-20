@@ -1,5 +1,4 @@
-// main.js
-
-var html = require('./html');
-console.log(html)
-$('body').html(html);
+var loading = require('./unit/loading');
+var router = require('./router');
+router();
+loading.hide();

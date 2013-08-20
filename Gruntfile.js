@@ -1,8 +1,9 @@
 module.exports = function (grunt) {
     var pkg = grunt.file.readJSON('package.json');
     var cfg = {
-        src: './asset/src',
-        dest: './asset/dist',
+        src: './asset/src/',
+        dest: './asset/dist/',
+        build: './.build/',
         serverHost: '0.0.0.0',
         serverPort: 9000,
         livereload: 35729
@@ -19,17 +20,13 @@ module.exports = function (grunt) {
                         require('connect-livereload')({
                             port: cfg.livereload
                         }),
-                        // Serve static files.
                         connect.static(options.base)
-                        // Make empty directories browsable.
-                        // connect.directory(options.base),
                     ];
                 }
             },
             server: {
                 options: {
-                    // keepalive: true,
-                    base: cfg.src
+                    base: './'
                 }
             }
         },
@@ -43,22 +40,19 @@ module.exports = function (grunt) {
                 livereload: cfg.livereload
             },
             scripts:  {
-                files: [cfg.cwd + '/js/**']
-                // tasks: ['jshint']
+                files: [cfg.src + 'js/**'],
+                tasks: ['browserify', 'jshint']
             },
             less:  {
-                files: [cfg.cwd + '/css/**/*.less'],
+                files: [cfg.src + 'css/**/*.less'],
                 tasks: ['less']
             }
         },
 
         less: {
             combile: {
-                options: {
-                    // paths: ["mobile/css"]
-                },
                 files: {
-                    'mobile/css/main.css': 'mobile/css/main.less'
+                    './asset/dist/css/main.css' : cfg.src + 'css/main.less'
                 }
             }
         },
@@ -66,129 +60,51 @@ module.exports = function (grunt) {
         jshint: {
             options:  grunt.file.readJSON('.jshintrc'),
             hint: {
-                src: ['mobile/js/**/*.js', '!mobile/js/sea.js', '!mobile/js/vendor/**']
+                src: [cfg.src + 'js/**/*.js', '!' + cfg.src + 'js/vendor/**']
             }
         },
-
+        clean : {
+            folder: cfg.dest
+        },
+        copy : {
+            main: {
+                files: [
+                    {
+                        src: [cfg.src + '**'],
+                        dest: cfg.build,
+                        filter: 'isFile'
+                    }
+                ]
+            }
+        },
         uglify : {
-            ugly: {
-                src: [cfg.dest + '/js/main.js'],
-                dest: cfg.dest + '/js/main-min.js'
+            jsbuild: {
+                options: {
+                    mangle : true
+                },
+                src: [cfg.build + '**/*.js'],
+                dest: cfg.dest + 'js/main-min.js'
+            }
+        },
+        unicode: {
+            main: {
+                files: [{
+                    expand: true,
+                    src: cfg.build + '**.*',
+                    dest: cfg.dest + '**.*'
+                }]
             }
         },
 
         browserify: {
-          basic: {
-            options: {
-              ignore: [cfg.src + '/js/vendor/**/*.*'],
-              alias: [cfg.src + '/js/vendor/jquery/1.10.2/jquery.js:$'],
-            },
-            src: [cfg.src + '/js/main.js'],
-            dest: cfg.dest + '/js/main.js'
-          },
-
-          // ignores: {
-          //   src: ['test/fixtures/ignore/*.js'],
-          //   dest: 'tmp/ignores.js',
-          //   options: {
-          //     ignore: ['test/fixtures/ignore/ignore.js', 'os']
-          //   }
-          // },
-
-          // alias: {
-          //   src: ['test/fixtures/alias/entry.js'],
-          //   dest: 'tmp/alias.js',
-          //   options: {
-          //     alias: ['test/fixtures/alias/toBeAliased.js:alias']
-          //   }
-          // },
-
-          // aliasString: {
-          //   src: ['test/fixtures/alias/entry.js'],
-          //   dest: 'tmp/aliasString.js',
-          //   options: {
-          //     alias: 'test/fixtures/alias/toBeAliased.js:alias'
-          //   }
-          // },
-
-          // aliasMappings: {
-          //   src: ['test/fixtures/aliasMappings/**/*.js'],
-          //   dest: 'tmp/aliasMappings.js',
-          //   options: {
-          //     aliasMappings: [
-          //       {
-          //         cwd: 'test/fixtures/aliasMappings/',
-          //         src: ['**/*.js'],
-          //         dest: 'tmp/shortcut/',
-          //         flatten: true
-          //       },
-          //       {
-          //         cwd: 'test/fixtures/aliasMappings/foo/',
-          //         src: ['**/*.js'],
-          //         dest: 'tmp/other/'
-          //       }
-          //     ]
-          //   }
-          // },
-
-          // external: {
-          //   src: ['test/fixtures/external/entry.js', 'text/fixtures/external/b.js'],
-          //   dest: 'tmp/external.js',
-          //   options: {
-          //     external: ['test/fixtures/external/a.js', 'events', 'vendor/alias']
-          //   }
-          // },
-
-          // 'external-dir': {
-          //   src: ['test/fixtures/external-dir/*.js'],
-          //   dest: 'tmp/external-dir.js',
-          //   options: {
-          //     external: ['test/fixtures/external-dir/b']
-          //   }
-          // },
-
-          // externalize: {
-          //   src: ['test/fixtures/externalize/b.js'],
-          //   dest: 'tmp/externalize.js',
-          //   options: {
-          //     alias: [
-          //       'test/fixtures/externalize/a.js:test/fixtures/externalize/a.js',
-          //       'events'
-          //     ]
-          //   }
-          // },
-
-          // noParse: {
-          //   src: ['test/fixtures/noParse/*.js'],
-          //   dest: 'tmp/noParse.js',
-          //   options: {
-          //     noParse: ['test/fixtures/noParse/jquery.js']
-          //   }
-          // },
-
-          // shim: {
-          //   src: ['test/fixtures/shim/a.js', 'test/fixtures/shim/shim.js'],
-          //   dest: 'tmp/shim.js',
-          //   options: {
-          //     shim: {
-          //       shimmedJQ: {
-          //         path: 'test/fixtures/shim/jquery.js',
-          //         exports: '$'
-          //       }
-          //     }
-          //   }
-          // },
-
-          // sourceMaps: {
-          //   src: ['test/fixtures/basic/*.js'],
-          //   dest: 'tmp/sourceMaps.js',
-          //   options: {
-          //     debug: true
-          //   }
-          // }
+            basic: {
+                options: {
+                    debug : true
+                },
+                src: [cfg.src + 'js/main.js'],
+                dest: cfg.dest + 'js/main.js'
+            }
         }
-        
-
     });
 
     // Load the plugin
@@ -204,7 +120,10 @@ module.exports = function (grunt) {
         'jshint'
     ]);
     grunt.registerTask('build', [
+        'clean',
+        'copy',
         'browserify',
+        'unicode',
         'uglify'
     ]);
 };

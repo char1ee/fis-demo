@@ -1,11 +1,10 @@
-define(function (require) {
-    var cfg = require('../config'),
-        dom = require('../unit/dom'),
-        ajax = require('../unit/ajax'),
-        viewport = require('../unit/viewport'),
-        tips = require('../unit/tips'),
-        store = require('../unit/store');
+var cfg = require('../config');
+var dom = require('../unit/dom');
+var ajax = require('../unit/ajax');
+var tips = require('../unit/tips');
+var store = require('../unit/store');
 
+function init() {
     var oLoginForm = dom.find('#login form')[0];
     oLoginForm.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -30,7 +29,8 @@ define(function (require) {
                 data = data || {};
                 if (data.status === '0') {
                     store('teacherId', data.teacherId);
-                    viewport.show('#examList');
+                    window.Router('examList');
+
                 } else {
                     tips.show({
                         msg : '登录失败'
@@ -40,4 +40,6 @@ define(function (require) {
             }
         });
     }, false);
-});
+}
+
+module.exports = init;

@@ -1,9 +1,10 @@
-define(function (require) {
-    var config   = require('../config'),
-        dom   = require('../unit/dom'),
-        ajax  = require('../unit/ajax'),
-        store = require('../unit/store'),
-        viewport = require('../unit/viewport');
+var config   = require('../config'),
+    dom   = require('../unit/dom'),
+    ajax  = require('../unit/ajax'),
+    store = require('../unit/store'),
+    viewport = require('../unit/viewport');
+
+module.exports = function () {
     ajax({
         url: config.MARKING_NAME,
         type: 'post',
@@ -45,4 +46,4 @@ define(function (require) {
             dom.find('#examList')[0].addEventListener('touchstart', eventBind, false);
         }
     });
-});
+};
