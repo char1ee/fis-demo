@@ -1,8 +1,8 @@
 module.exports = function (grunt) {
     var pkg = grunt.file.readJSON('package.json');
     var cfg = {
-        src: './asset/src',
-        dest: './asset/dist',
+        src: './',
+        cwd: './mobile',
         serverHost: '0.0.0.0',
         serverPort: 9000,
         livereload: 35729
@@ -72,19 +72,19 @@ module.exports = function (grunt) {
 
         uglify : {
             ugly: {
-                src: [cfg.dest + '/js/main.js'],
-                dest: cfg.dest + '/js/main-min.js'
+                src: ['mobile/js/**/*.js', '!mobile/js/sea.js', '!mobile/js/handlebars.js'],
+                dest: 'dest/uglify.js'
             }
         },
 
         browserify: {
           basic: {
             options: {
-              ignore: [cfg.src + '/js/vendor/**/*.*'],
-              alias: [cfg.src + '/js/vendor/jquery/1.10.2/jquery.js:$'],
+              ignore: ['$'],
+              alias: [cfg.cwd + '/js/vendor/jquery.js:$'],
             },
-            src: [cfg.src + '/js/main.js'],
-            dest: cfg.dest + '/js/main.js'
+            src: [cfg.cwd + '/js/init.js'],
+            dest: cfg.cwd + '/js/aaaaaaaaaaaaaaaaaaaaaaaaaaaaa.js'
           },
 
           // ignores: {
@@ -204,7 +204,7 @@ module.exports = function (grunt) {
         'jshint'
     ]);
     grunt.registerTask('build', [
-        'browserify',
-        'uglify'
+        // 'uglify'
+        'browserify'
     ]);
 };

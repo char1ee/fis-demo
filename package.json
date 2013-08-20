@@ -28,8 +28,8 @@
     "grunt-contrib-connect": "~0.3.0",
     "grunt-cmd-combo": "~1.0.0",
     "grunt-browserify": "~1.2.3",
-    "grunt-browserify2": "~0.1.8",
     "browserify": "~2.28.0",
-    "browserify-shim": "~2.0.8"
+    "browserify-shim": "~2.0.8",
+    "jquery": "~1.8.3"
   }
 }
